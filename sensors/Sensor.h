@@ -152,6 +152,22 @@ class DoubleTapSensor : public SysfsPollingOneShotSensor {
 };
 #endif
 
+#ifdef USES_SINGLE_TAP_SENSOR
+static const char* singleTapPaths[] = {
+  "/proc/touchpanel/i2c/single_tap_pressed",
+  NULL
+};
+
+class SingleTapSensor : public SysfsPollingOneShotSensor {
+  public:
+    SingleTapSensor(int32_t sensorHandle, ISensorsEventCallback* callback)
+        : SysfsPollingOneShotSensor(
+              sensorHandle, callback, GetPollPath(singleTapPaths),
+              "Single Tap Sensor", "co.aospa.sensor.single_tap",
+              static_cast<SensorType>(static_cast<int32_t>(SensorType::DEVICE_PRIVATE_BASE) + 1)) {}
+};
+#endif
+
 }  // namespace implementation
 }  // namespace subhal
 }  // namespace V2_1
