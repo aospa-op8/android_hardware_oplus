@@ -4,9 +4,26 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+soong_config_module_type {
+    name: "sensors_oplus_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "SENSORS_OPLUS",
+    bool_variables: ["USES_UDFPS_SENSOR"],
+    properties: ["cppflags"],
+}
+
+sensors_oplus_cc_defaults {
+    name: "sensors_oplus_defaults",
+    soong_config_variables: {
+        USES_UDFPS_SENSOR: {
+            cppflags: ["-DUSES_UDFPS_SENSOR"],
+        },
+    },
+}
+
 cc_library_shared {
     name: "sensors.oplus",
-    defaults: ["hidl_defaults"],
+    defaults: ["hidl_defaults", "sensors_oplus_defaults"],
     srcs: [
         "Sensor.cpp",
         "SensorsSubHal.cpp",
